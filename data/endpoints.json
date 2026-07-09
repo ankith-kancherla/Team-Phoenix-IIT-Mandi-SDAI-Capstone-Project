@@ -1,0 +1,1781 @@
+{
+  "schema_version": "1.0",
+  "generated_for": "SDAI Himshikhar 2026 \u2014 Team Phoenix",
+  "count": 49,
+  "endpoints": [
+    {
+      "id": "ep_001",
+      "service": "ShopStack",
+      "method": "POST",
+      "path": "/api/v1/auth/register",
+      "summary": "Register a new customer account",
+      "auth_required": false,
+      "request_body": {
+        "email": "priya@example.com",
+        "password": "S3curePass!",
+        "full_name": "Priya Sharma"
+      },
+      "response_body": {
+        "user_id": "usr_9f2c",
+        "email": "priya@example.com",
+        "created_at": "2026-07-01T10:22:00Z"
+      },
+      "error_codes": [
+        {
+          "code": 409,
+          "message": "Conflict \u2014 email already exists"
+        },
+        {
+          "code": 422,
+          "message": "Validation failed \u2014 see field errors in response"
+        },
+        {
+          "code": 500,
+          "message": "Internal server error"
+        }
+      ],
+      "tags": [
+        "auth",
+        "users"
+      ]
+    },
+    {
+      "id": "ep_002",
+      "service": "ShopStack",
+      "method": "POST",
+      "path": "/api/v1/auth/login",
+      "summary": "Authenticate and receive a JWT access token",
+      "auth_required": false,
+      "request_body": {
+        "email": "priya@example.com",
+        "password": "S3curePass!"
+      },
+      "response_body": {
+        "access_token": "eyJhbGciOiJIUzI1NiIs...",
+        "token_type": "bearer",
+        "expires_in": 3600
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Invalid email or password"
+        },
+        {
+          "code": 429,
+          "message": "Rate limit exceeded \u2014 retry after cooldown"
+        },
+        {
+          "code": 500,
+          "message": "Internal server error"
+        }
+      ],
+      "tags": [
+        "auth"
+      ]
+    },
+    {
+      "id": "ep_003",
+      "service": "ShopStack",
+      "method": "POST",
+      "path": "/api/v1/auth/refresh",
+      "summary": "Exchange a refresh token for a new access token",
+      "auth_required": false,
+      "request_body": {
+        "refresh_token": "rt_7d1aa2..."
+      },
+      "response_body": {
+        "access_token": "eyJhbGciOiJIUzI1NiIs...",
+        "expires_in": 3600
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Refresh token expired or revoked"
+        },
+        {
+          "code": 500,
+          "message": "Internal server error"
+        }
+      ],
+      "tags": [
+        "auth"
+      ]
+    },
+    {
+      "id": "ep_004",
+      "service": "ShopStack",
+      "method": "GET",
+      "path": "/api/v1/products",
+      "summary": "List products with pagination and category filter",
+      "auth_required": false,
+      "request_body": {
+        "query": {
+          "page": 1,
+          "limit": 20,
+          "category": "electronics",
+          "sort": "price_asc"
+        }
+      },
+      "response_body": {
+        "items": [
+          {
+            "product_id": "prd_101",
+            "name": "Wireless Mouse",
+            "price_inr": 899.0,
+            "in_stock": true
+          }
+        ],
+        "page": 1,
+        "total": 342
+      },
+      "error_codes": [
+        {
+          "code": 422,
+          "message": "Validation failed \u2014 see field errors in response"
+        },
+        {
+          "code": 429,
+          "message": "Rate limit exceeded \u2014 retry after cooldown"
+        },
+        {
+          "code": 500,
+          "message": "Internal server error"
+        }
+      ],
+      "tags": [
+        "catalog"
+      ]
+    },
+    {
+      "id": "ep_005",
+      "service": "ShopStack",
+      "method": "GET",
+      "path": "/api/v1/products/{product_id}",
+      "summary": "Fetch a single product by ID",
+      "auth_required": false,
+      "request_body": null,
+      "response_body": {
+        "product_id": "prd_101",
+        "name": "Wireless Mouse",
+        "price_inr": 899.0,
+        "rating": 4.4,
+        "stock": 57
+      },
+      "error_codes": [
+        {
+          "code": 404,
+          "message": "Product not found"
+        },
+        {
+          "code": 500,
+          "message": "Internal server error"
+        }
+      ],
+      "tags": [
+        "catalog"
+      ]
+    },
+    {
+      "id": "ep_006",
+      "service": "ShopStack",
+      "method": "POST",
+      "path": "/api/v1/products",
+      "summary": "Create a product (admin only)",
+      "auth_required": true,
+      "request_body": {
+        "name": "Mechanical Keyboard",
+        "price_inr": 3499.0,
+        "category": "electronics",
+        "stock": 120
+      },
+      "response_body": {
+        "product_id": "prd_882",
+        "status": "created"
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 403,
+          "message": "Forbidden \u2014 caller lacks permission for this resource"
+        },
+        {
+          "code": 422,
+          "message": "Validation failed \u2014 see field errors in response"
+        },
+        {
+          "code": 500,
+          "message": "Internal server error"
+        }
+      ],
+      "tags": [
+        "catalog",
+        "admin"
+      ]
+    },
+    {
+      "id": "ep_007",
+      "service": "ShopStack",
+      "method": "PUT",
+      "path": "/api/v1/products/{product_id}",
+      "summary": "Replace a product record (admin only)",
+      "auth_required": true,
+      "request_body": {
+        "name": "Mechanical Keyboard TKL",
+        "price_inr": 3299.0,
+        "category": "electronics",
+        "stock": 96
+      },
+      "response_body": {
+        "product_id": "prd_882",
+        "status": "updated"
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 403,
+          "message": "Forbidden \u2014 caller lacks permission for this resource"
+        },
+        {
+          "code": 404,
+          "message": "Product not found"
+        },
+        {
+          "code": 422,
+          "message": "Validation failed \u2014 see field errors in response"
+        }
+      ],
+      "tags": [
+        "catalog",
+        "admin"
+      ]
+    },
+    {
+      "id": "ep_008",
+      "service": "ShopStack",
+      "method": "PATCH",
+      "path": "/api/v1/products/{product_id}/stock",
+      "summary": "Adjust stock level for a product",
+      "auth_required": true,
+      "request_body": {
+        "delta": -3,
+        "reason": "order_fulfilled"
+      },
+      "response_body": {
+        "product_id": "prd_101",
+        "stock": 54
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 404,
+          "message": "Product not found"
+        },
+        {
+          "code": 409,
+          "message": "Stock cannot go below zero"
+        }
+      ],
+      "tags": [
+        "inventory"
+      ]
+    },
+    {
+      "id": "ep_009",
+      "service": "ShopStack",
+      "method": "DELETE",
+      "path": "/api/v1/products/{product_id}",
+      "summary": "Soft-delete a product (admin only)",
+      "auth_required": true,
+      "request_body": null,
+      "response_body": {
+        "product_id": "prd_882",
+        "status": "deleted"
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 403,
+          "message": "Forbidden \u2014 caller lacks permission for this resource"
+        },
+        {
+          "code": 404,
+          "message": "Product not found"
+        }
+      ],
+      "tags": [
+        "catalog",
+        "admin"
+      ]
+    },
+    {
+      "id": "ep_010",
+      "service": "ShopStack",
+      "method": "POST",
+      "path": "/api/v1/cart/items",
+      "summary": "Add an item to the current user's cart",
+      "auth_required": true,
+      "request_body": {
+        "product_id": "prd_101",
+        "quantity": 2
+      },
+      "response_body": {
+        "cart_id": "crt_55",
+        "items": 3,
+        "subtotal_inr": 2697.0
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 404,
+          "message": "Product not found"
+        },
+        {
+          "code": 409,
+          "message": "Requested quantity exceeds available stock"
+        }
+      ],
+      "tags": [
+        "cart"
+      ]
+    },
+    {
+      "id": "ep_011",
+      "service": "ShopStack",
+      "method": "DELETE",
+      "path": "/api/v1/cart/items/{item_id}",
+      "summary": "Remove an item from the cart",
+      "auth_required": true,
+      "request_body": null,
+      "response_body": {
+        "cart_id": "crt_55",
+        "items": 2,
+        "subtotal_inr": 1798.0
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 404,
+          "message": "Cart item not found"
+        }
+      ],
+      "tags": [
+        "cart"
+      ]
+    },
+    {
+      "id": "ep_012",
+      "service": "ShopStack",
+      "method": "POST",
+      "path": "/api/v1/orders",
+      "summary": "Place an order from the current cart",
+      "auth_required": true,
+      "request_body": {
+        "cart_id": "crt_55",
+        "address_id": "adr_12",
+        "payment_method": "upi"
+      },
+      "response_body": {
+        "order_id": "ord_3001",
+        "status": "confirmed",
+        "eta_days": 3,
+        "total_inr": 1798.0
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 422,
+          "message": "Validation failed \u2014 see field errors in response"
+        },
+        {
+          "code": 402,
+          "message": "Payment authorization failed"
+        },
+        {
+          "code": 500,
+          "message": "Internal server error"
+        }
+      ],
+      "tags": [
+        "orders",
+        "payments"
+      ]
+    },
+    {
+      "id": "ep_013",
+      "service": "ShopStack",
+      "method": "GET",
+      "path": "/api/v1/orders/{order_id}",
+      "summary": "Track an order's status and shipment events",
+      "auth_required": true,
+      "request_body": null,
+      "response_body": {
+        "order_id": "ord_3001",
+        "status": "shipped",
+        "events": [
+          {
+            "ts": "2026-07-02T09:00:00Z",
+            "state": "packed"
+          }
+        ]
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 403,
+          "message": "Forbidden \u2014 caller lacks permission for this resource"
+        },
+        {
+          "code": 404,
+          "message": "Order not found"
+        }
+      ],
+      "tags": [
+        "orders"
+      ]
+    },
+    {
+      "id": "ep_014",
+      "service": "ShopStack",
+      "method": "POST",
+      "path": "/api/v1/orders/{order_id}/cancel",
+      "summary": "Cancel an order before it ships",
+      "auth_required": true,
+      "request_body": {
+        "reason": "ordered_by_mistake"
+      },
+      "response_body": {
+        "order_id": "ord_3001",
+        "status": "cancelled",
+        "refund_id": "rfd_88"
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 404,
+          "message": "Order not found"
+        },
+        {
+          "code": 409,
+          "message": "Order already shipped \u2014 cannot cancel"
+        }
+      ],
+      "tags": [
+        "orders"
+      ]
+    },
+    {
+      "id": "ep_015",
+      "service": "ShopStack",
+      "method": "GET",
+      "path": "/api/v1/payments/{payment_id}",
+      "summary": "Fetch payment status for reconciliation",
+      "auth_required": true,
+      "request_body": null,
+      "response_body": {
+        "payment_id": "pay_771",
+        "status": "captured",
+        "amount_inr": 1798.0,
+        "method": "upi"
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 404,
+          "message": "Payment not found"
+        },
+        {
+          "code": 500,
+          "message": "Internal server error"
+        }
+      ],
+      "tags": [
+        "payments"
+      ]
+    },
+    {
+      "id": "ep_016",
+      "service": "ShopStack",
+      "method": "POST",
+      "path": "/api/v1/reviews",
+      "summary": "Submit a product review",
+      "auth_required": true,
+      "request_body": {
+        "product_id": "prd_101",
+        "rating": 5,
+        "title": "Great value",
+        "body": "Battery lasts weeks."
+      },
+      "response_body": {
+        "review_id": "rev_204",
+        "status": "pending_moderation"
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 404,
+          "message": "Product not found"
+        },
+        {
+          "code": 422,
+          "message": "Validation failed \u2014 see field errors in response"
+        },
+        {
+          "code": 409,
+          "message": "User already reviewed this product"
+        }
+      ],
+      "tags": [
+        "reviews"
+      ]
+    },
+    {
+      "id": "ep_017",
+      "service": "RideLink",
+      "method": "POST",
+      "path": "/api/v2/rides/estimate",
+      "summary": "Get fare and ETA estimates for a trip",
+      "auth_required": true,
+      "request_body": {
+        "pickup": {
+          "lat": 17.4401,
+          "lng": 78.3489
+        },
+        "drop": {
+          "lat": 17.4933,
+          "lng": 78.3915
+        },
+        "vehicle_type": "auto"
+      },
+      "response_body": {
+        "fare_inr": {
+          "min": 96,
+          "max": 118
+        },
+        "eta_minutes": 4,
+        "surge_multiplier": 1.0
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 422,
+          "message": "Validation failed \u2014 see field errors in response"
+        },
+        {
+          "code": 503,
+          "message": "No drivers available in this zone"
+        }
+      ],
+      "tags": [
+        "rides",
+        "pricing"
+      ]
+    },
+    {
+      "id": "ep_018",
+      "service": "RideLink",
+      "method": "POST",
+      "path": "/api/v2/rides",
+      "summary": "Request a ride",
+      "auth_required": true,
+      "request_body": {
+        "pickup": {
+          "lat": 17.4401,
+          "lng": 78.3489
+        },
+        "drop": {
+          "lat": 17.4933,
+          "lng": 78.3915
+        },
+        "vehicle_type": "auto",
+        "payment_method": "wallet"
+      },
+      "response_body": {
+        "ride_id": "rid_5501",
+        "status": "searching_driver",
+        "otp": "4821"
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 422,
+          "message": "Validation failed \u2014 see field errors in response"
+        },
+        {
+          "code": 402,
+          "message": "Wallet balance insufficient"
+        },
+        {
+          "code": 429,
+          "message": "Rate limit exceeded \u2014 retry after cooldown"
+        }
+      ],
+      "tags": [
+        "rides"
+      ]
+    },
+    {
+      "id": "ep_019",
+      "service": "RideLink",
+      "method": "GET",
+      "path": "/api/v2/rides/{ride_id}",
+      "summary": "Poll live ride status and driver location",
+      "auth_required": true,
+      "request_body": null,
+      "response_body": {
+        "ride_id": "rid_5501",
+        "status": "driver_en_route",
+        "driver": {
+          "name": "Ravi K",
+          "vehicle_no": "TS09 AB 1234"
+        },
+        "driver_location": {
+          "lat": 17.4412,
+          "lng": 78.3502
+        }
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 403,
+          "message": "Forbidden \u2014 caller lacks permission for this resource"
+        },
+        {
+          "code": 404,
+          "message": "Ride not found"
+        }
+      ],
+      "tags": [
+        "rides",
+        "tracking"
+      ]
+    },
+    {
+      "id": "ep_020",
+      "service": "RideLink",
+      "method": "POST",
+      "path": "/api/v2/rides/{ride_id}/cancel",
+      "summary": "Cancel a requested or ongoing ride",
+      "auth_required": true,
+      "request_body": {
+        "reason_code": "driver_too_far"
+      },
+      "response_body": {
+        "ride_id": "rid_5501",
+        "status": "cancelled",
+        "cancellation_fee_inr": 0
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 404,
+          "message": "Ride not found"
+        },
+        {
+          "code": 409,
+          "message": "Ride already completed"
+        }
+      ],
+      "tags": [
+        "rides"
+      ]
+    },
+    {
+      "id": "ep_021",
+      "service": "RideLink",
+      "method": "POST",
+      "path": "/api/v2/rides/{ride_id}/rating",
+      "summary": "Rate the driver after ride completion",
+      "auth_required": true,
+      "request_body": {
+        "stars": 4,
+        "compliments": [
+          "safe_driving"
+        ],
+        "comment": "Smooth ride"
+      },
+      "response_body": {
+        "ride_id": "rid_5501",
+        "rating_saved": true
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 404,
+          "message": "Ride not found"
+        },
+        {
+          "code": 422,
+          "message": "Validation failed \u2014 see field errors in response"
+        },
+        {
+          "code": 409,
+          "message": "Ride already rated"
+        }
+      ],
+      "tags": [
+        "rides",
+        "feedback"
+      ]
+    },
+    {
+      "id": "ep_022",
+      "service": "RideLink",
+      "method": "GET",
+      "path": "/api/v2/drivers/{driver_id}/earnings",
+      "summary": "Driver daily earnings summary",
+      "auth_required": true,
+      "request_body": {
+        "query": {
+          "date": "2026-07-05"
+        }
+      },
+      "response_body": {
+        "driver_id": "drv_88",
+        "date": "2026-07-05",
+        "trips": 14,
+        "gross_inr": 2140.0,
+        "incentives_inr": 250.0
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 403,
+          "message": "Forbidden \u2014 caller lacks permission for this resource"
+        },
+        {
+          "code": 404,
+          "message": "Driver not found"
+        }
+      ],
+      "tags": [
+        "drivers",
+        "payouts"
+      ]
+    },
+    {
+      "id": "ep_023",
+      "service": "RideLink",
+      "method": "PUT",
+      "path": "/api/v2/drivers/{driver_id}/availability",
+      "summary": "Toggle driver online/offline status",
+      "auth_required": true,
+      "request_body": {
+        "online": true,
+        "zone": "HITEC_City"
+      },
+      "response_body": {
+        "driver_id": "drv_88",
+        "online": true,
+        "since": "2026-07-06T08:02:00Z"
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 403,
+          "message": "Forbidden \u2014 caller lacks permission for this resource"
+        },
+        {
+          "code": 422,
+          "message": "Validation failed \u2014 see field errors in response"
+        }
+      ],
+      "tags": [
+        "drivers"
+      ]
+    },
+    {
+      "id": "ep_024",
+      "service": "RideLink",
+      "method": "GET",
+      "path": "/api/v2/zones/{zone_id}/surge",
+      "summary": "Current surge multiplier for a zone",
+      "auth_required": true,
+      "request_body": null,
+      "response_body": {
+        "zone_id": "HITEC_City",
+        "surge_multiplier": 1.4,
+        "valid_until": "2026-07-06T09:00:00Z"
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 404,
+          "message": "Zone not found"
+        }
+      ],
+      "tags": [
+        "pricing"
+      ]
+    },
+    {
+      "id": "ep_025",
+      "service": "RideLink",
+      "method": "POST",
+      "path": "/api/v2/wallet/topup",
+      "summary": "Add money to rider wallet",
+      "auth_required": true,
+      "request_body": {
+        "amount_inr": 500,
+        "method": "upi",
+        "upi_id": "priya@okbank"
+      },
+      "response_body": {
+        "txn_id": "wtx_909",
+        "balance_inr": 742.5,
+        "status": "success"
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 422,
+          "message": "Validation failed \u2014 see field errors in response"
+        },
+        {
+          "code": 402,
+          "message": "UPI collect request declined"
+        }
+      ],
+      "tags": [
+        "wallet",
+        "payments"
+      ]
+    },
+    {
+      "id": "ep_026",
+      "service": "RideLink",
+      "method": "GET",
+      "path": "/api/v2/wallet/transactions",
+      "summary": "Paginated wallet transaction history",
+      "auth_required": true,
+      "request_body": {
+        "query": {
+          "page": 1,
+          "limit": 25
+        }
+      },
+      "response_body": {
+        "items": [
+          {
+            "txn_id": "wtx_909",
+            "type": "credit",
+            "amount_inr": 500
+          }
+        ],
+        "page": 1,
+        "total": 61
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 422,
+          "message": "Validation failed \u2014 see field errors in response"
+        }
+      ],
+      "tags": [
+        "wallet"
+      ]
+    },
+    {
+      "id": "ep_027",
+      "service": "MediTrack",
+      "method": "POST",
+      "path": "/api/v1/patients",
+      "summary": "Register a patient record",
+      "auth_required": true,
+      "request_body": {
+        "name": "A. Verma",
+        "dob": "1994-03-18",
+        "phone": "+91-9xxxxxxxxx",
+        "blood_group": "B+"
+      },
+      "response_body": {
+        "patient_id": "pat_4402",
+        "created_at": "2026-07-01T11:00:00Z"
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 403,
+          "message": "Forbidden \u2014 caller lacks permission for this resource"
+        },
+        {
+          "code": 422,
+          "message": "Validation failed \u2014 see field errors in response"
+        },
+        {
+          "code": 409,
+          "message": "Conflict \u2014 phone number already exists"
+        }
+      ],
+      "tags": [
+        "patients"
+      ]
+    },
+    {
+      "id": "ep_028",
+      "service": "MediTrack",
+      "method": "GET",
+      "path": "/api/v1/patients/{patient_id}",
+      "summary": "Retrieve a patient's demographic record",
+      "auth_required": true,
+      "request_body": null,
+      "response_body": {
+        "patient_id": "pat_4402",
+        "name": "A. Verma",
+        "blood_group": "B+",
+        "allergies": [
+          "penicillin"
+        ]
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 403,
+          "message": "Forbidden \u2014 caller lacks permission for this resource"
+        },
+        {
+          "code": 404,
+          "message": "Patient not found"
+        }
+      ],
+      "tags": [
+        "patients"
+      ]
+    },
+    {
+      "id": "ep_029",
+      "service": "MediTrack",
+      "method": "POST",
+      "path": "/api/v1/appointments",
+      "summary": "Book an appointment slot with a doctor",
+      "auth_required": true,
+      "request_body": {
+        "patient_id": "pat_4402",
+        "doctor_id": "doc_17",
+        "slot": "2026-07-08T10:30:00Z",
+        "mode": "in_person"
+      },
+      "response_body": {
+        "appointment_id": "apt_781",
+        "status": "confirmed",
+        "queue_no": 6
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 404,
+          "message": "Doctor not found"
+        },
+        {
+          "code": 409,
+          "message": "Slot already booked"
+        },
+        {
+          "code": 422,
+          "message": "Validation failed \u2014 see field errors in response"
+        }
+      ],
+      "tags": [
+        "appointments"
+      ]
+    },
+    {
+      "id": "ep_030",
+      "service": "MediTrack",
+      "method": "PATCH",
+      "path": "/api/v1/appointments/{appointment_id}",
+      "summary": "Reschedule or update an appointment",
+      "auth_required": true,
+      "request_body": {
+        "slot": "2026-07-09T09:00:00Z"
+      },
+      "response_body": {
+        "appointment_id": "apt_781",
+        "status": "rescheduled"
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 404,
+          "message": "Appointment not found"
+        },
+        {
+          "code": 409,
+          "message": "New slot unavailable"
+        }
+      ],
+      "tags": [
+        "appointments"
+      ]
+    },
+    {
+      "id": "ep_031",
+      "service": "MediTrack",
+      "method": "DELETE",
+      "path": "/api/v1/appointments/{appointment_id}",
+      "summary": "Cancel an appointment",
+      "auth_required": true,
+      "request_body": null,
+      "response_body": {
+        "appointment_id": "apt_781",
+        "status": "cancelled"
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 404,
+          "message": "Appointment not found"
+        }
+      ],
+      "tags": [
+        "appointments"
+      ]
+    },
+    {
+      "id": "ep_032",
+      "service": "MediTrack",
+      "method": "GET",
+      "path": "/api/v1/doctors",
+      "summary": "Search doctors by speciality and availability",
+      "auth_required": false,
+      "request_body": {
+        "query": {
+          "speciality": "dermatology",
+          "city": "Hyderabad",
+          "available_on": "2026-07-08"
+        }
+      },
+      "response_body": {
+        "items": [
+          {
+            "doctor_id": "doc_17",
+            "name": "Dr. Meera Nair",
+            "speciality": "dermatology",
+            "next_slot": "2026-07-08T10:30:00Z"
+          }
+        ],
+        "total": 12
+      },
+      "error_codes": [
+        {
+          "code": 422,
+          "message": "Validation failed \u2014 see field errors in response"
+        },
+        {
+          "code": 500,
+          "message": "Internal server error"
+        }
+      ],
+      "tags": [
+        "doctors",
+        "search"
+      ]
+    },
+    {
+      "id": "ep_033",
+      "service": "MediTrack",
+      "method": "POST",
+      "path": "/api/v1/prescriptions",
+      "summary": "Issue a digital prescription (doctor only)",
+      "auth_required": true,
+      "request_body": {
+        "appointment_id": "apt_781",
+        "medicines": [
+          {
+            "name": "Cetirizine 10mg",
+            "dose": "1-0-1",
+            "days": 5
+          }
+        ],
+        "notes": "Avoid dust exposure"
+      },
+      "response_body": {
+        "prescription_id": "rx_311",
+        "pdf_url": "https://cdn.meditrack.in/rx_311.pdf"
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 403,
+          "message": "Forbidden \u2014 caller lacks permission for this resource"
+        },
+        {
+          "code": 404,
+          "message": "Appointment not found"
+        },
+        {
+          "code": 422,
+          "message": "Validation failed \u2014 see field errors in response"
+        }
+      ],
+      "tags": [
+        "prescriptions"
+      ]
+    },
+    {
+      "id": "ep_034",
+      "service": "MediTrack",
+      "method": "GET",
+      "path": "/api/v1/reports/{report_id}",
+      "summary": "Download a lab report",
+      "auth_required": true,
+      "request_body": null,
+      "response_body": {
+        "report_id": "lab_902",
+        "type": "CBC",
+        "status": "ready",
+        "download_url": "https://cdn.meditrack.in/lab_902.pdf"
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 403,
+          "message": "Forbidden \u2014 caller lacks permission for this resource"
+        },
+        {
+          "code": 404,
+          "message": "Report not found"
+        },
+        {
+          "code": 423,
+          "message": "Report locked pending doctor review"
+        }
+      ],
+      "tags": [
+        "labs"
+      ]
+    },
+    {
+      "id": "ep_035",
+      "service": "MediTrack",
+      "method": "POST",
+      "path": "/api/v1/vitals",
+      "summary": "Log patient vitals from a wearable or nurse station",
+      "auth_required": true,
+      "request_body": {
+        "patient_id": "pat_4402",
+        "spo2": 98,
+        "pulse": 74,
+        "bp": "118/76",
+        "recorded_at": "2026-07-06T07:45:00Z"
+      },
+      "response_body": {
+        "vital_id": "vit_5590",
+        "flag": "normal"
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 422,
+          "message": "Validation failed \u2014 see field errors in response"
+        },
+        {
+          "code": 404,
+          "message": "Patient not found"
+        }
+      ],
+      "tags": [
+        "vitals",
+        "iot"
+      ]
+    },
+    {
+      "id": "ep_036",
+      "service": "EduSphere",
+      "method": "GET",
+      "path": "/api/v1/courses",
+      "summary": "Browse published courses",
+      "auth_required": false,
+      "request_body": {
+        "query": {
+          "topic": "machine-learning",
+          "level": "beginner",
+          "page": 1
+        }
+      },
+      "response_body": {
+        "items": [
+          {
+            "course_id": "crs_21",
+            "title": "ML Foundations",
+            "lessons": 42,
+            "price_inr": 0
+          }
+        ],
+        "total": 87
+      },
+      "error_codes": [
+        {
+          "code": 422,
+          "message": "Validation failed \u2014 see field errors in response"
+        },
+        {
+          "code": 500,
+          "message": "Internal server error"
+        }
+      ],
+      "tags": [
+        "courses",
+        "catalog"
+      ]
+    },
+    {
+      "id": "ep_037",
+      "service": "EduSphere",
+      "method": "POST",
+      "path": "/api/v1/enrollments",
+      "summary": "Enroll the current user in a course",
+      "auth_required": true,
+      "request_body": {
+        "course_id": "crs_21"
+      },
+      "response_body": {
+        "enrollment_id": "enr_610",
+        "course_id": "crs_21",
+        "progress_pct": 0
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 404,
+          "message": "Course not found"
+        },
+        {
+          "code": 409,
+          "message": "Conflict \u2014 enrollment already exists"
+        }
+      ],
+      "tags": [
+        "enrollments"
+      ]
+    },
+    {
+      "id": "ep_038",
+      "service": "EduSphere",
+      "method": "PATCH",
+      "path": "/api/v1/enrollments/{enrollment_id}/progress",
+      "summary": "Mark a lesson complete and update progress",
+      "auth_required": true,
+      "request_body": {
+        "lesson_id": "lsn_1204",
+        "completed": true
+      },
+      "response_body": {
+        "enrollment_id": "enr_610",
+        "progress_pct": 38.1,
+        "streak_days": 6
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 404,
+          "message": "Enrollment not found"
+        },
+        {
+          "code": 422,
+          "message": "Validation failed \u2014 see field errors in response"
+        }
+      ],
+      "tags": [
+        "enrollments",
+        "progress"
+      ]
+    },
+    {
+      "id": "ep_039",
+      "service": "EduSphere",
+      "method": "POST",
+      "path": "/api/v1/quizzes/{quiz_id}/attempts",
+      "summary": "Submit quiz answers for auto-grading",
+      "auth_required": true,
+      "request_body": {
+        "answers": [
+          {
+            "question_id": "q1",
+            "choice": "B"
+          },
+          {
+            "question_id": "q2",
+            "choice": "D"
+          }
+        ]
+      },
+      "response_body": {
+        "attempt_id": "att_77",
+        "score": 8,
+        "max_score": 10,
+        "passed": true
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 404,
+          "message": "Quiz not found"
+        },
+        {
+          "code": 422,
+          "message": "Validation failed \u2014 see field errors in response"
+        },
+        {
+          "code": 409,
+          "message": "Maximum attempts reached"
+        }
+      ],
+      "tags": [
+        "quizzes",
+        "grading"
+      ]
+    },
+    {
+      "id": "ep_040",
+      "service": "EduSphere",
+      "method": "GET",
+      "path": "/api/v1/certificates/{certificate_id}",
+      "summary": "Verify a course completion certificate",
+      "auth_required": false,
+      "request_body": null,
+      "response_body": {
+        "certificate_id": "cert_9x2",
+        "learner": "V. Reddy",
+        "course": "ML Foundations",
+        "issued_on": "2026-06-30",
+        "valid": true
+      },
+      "error_codes": [
+        {
+          "code": 404,
+          "message": "Certificate not found"
+        }
+      ],
+      "tags": [
+        "certificates",
+        "public"
+      ]
+    },
+    {
+      "id": "ep_041",
+      "service": "EduSphere",
+      "method": "POST",
+      "path": "/api/v1/doubts",
+      "summary": "Post a doubt on a lesson for mentor response",
+      "auth_required": true,
+      "request_body": {
+        "lesson_id": "lsn_1204",
+        "question": "Why do we scale features before gradient descent?"
+      },
+      "response_body": {
+        "doubt_id": "dbt_431",
+        "status": "open",
+        "expected_reply_hours": 4
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 404,
+          "message": "Lesson not found"
+        },
+        {
+          "code": 422,
+          "message": "Validation failed \u2014 see field errors in response"
+        },
+        {
+          "code": 429,
+          "message": "Rate limit exceeded \u2014 retry after cooldown"
+        }
+      ],
+      "tags": [
+        "doubts",
+        "community"
+      ]
+    },
+    {
+      "id": "ep_042",
+      "service": "EduSphere",
+      "method": "GET",
+      "path": "/api/v1/leaderboard",
+      "summary": "Weekly points leaderboard",
+      "auth_required": false,
+      "request_body": {
+        "query": {
+          "week": "2026-W27",
+          "limit": 50
+        }
+      },
+      "response_body": {
+        "week": "2026-W27",
+        "entries": [
+          {
+            "rank": 1,
+            "user": "codewiz",
+            "points": 1240
+          }
+        ]
+      },
+      "error_codes": [
+        {
+          "code": 422,
+          "message": "Validation failed \u2014 see field errors in response"
+        },
+        {
+          "code": 500,
+          "message": "Internal server error"
+        }
+      ],
+      "tags": [
+        "gamification"
+      ]
+    },
+    {
+      "id": "ep_043",
+      "service": "PayBridge",
+      "method": "POST",
+      "path": "/api/v1/payments/intent",
+      "summary": "Create a payment intent for checkout",
+      "auth_required": true,
+      "request_body": {
+        "amount_inr": 1798.0,
+        "currency": "INR",
+        "order_ref": "ord_3001",
+        "methods": [
+          "upi",
+          "card"
+        ]
+      },
+      "response_body": {
+        "intent_id": "pi_5c1",
+        "client_secret": "pi_5c1_secret_...",
+        "expires_at": "2026-07-06T09:15:00Z"
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 422,
+          "message": "Validation failed \u2014 see field errors in response"
+        },
+        {
+          "code": 429,
+          "message": "Rate limit exceeded \u2014 retry after cooldown"
+        },
+        {
+          "code": 500,
+          "message": "Internal server error"
+        }
+      ],
+      "tags": [
+        "payments"
+      ]
+    },
+    {
+      "id": "ep_044",
+      "service": "PayBridge",
+      "method": "POST",
+      "path": "/api/v1/payments/{intent_id}/capture",
+      "summary": "Capture an authorized payment",
+      "auth_required": true,
+      "request_body": {
+        "amount_inr": 1798.0
+      },
+      "response_body": {
+        "intent_id": "pi_5c1",
+        "status": "captured",
+        "fee_inr": 21.4
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 404,
+          "message": "Payment intent not found"
+        },
+        {
+          "code": 409,
+          "message": "Intent not in authorized state"
+        }
+      ],
+      "tags": [
+        "payments"
+      ]
+    },
+    {
+      "id": "ep_045",
+      "service": "PayBridge",
+      "method": "POST",
+      "path": "/api/v1/refunds",
+      "summary": "Refund a captured payment fully or partially",
+      "auth_required": true,
+      "request_body": {
+        "intent_id": "pi_5c1",
+        "amount_inr": 1798.0,
+        "reason": "order_cancelled"
+      },
+      "response_body": {
+        "refund_id": "rfd_88",
+        "status": "processing",
+        "eta_days": 5
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 404,
+          "message": "Payment intent not found"
+        },
+        {
+          "code": 409,
+          "message": "Refund exceeds captured amount"
+        },
+        {
+          "code": 422,
+          "message": "Validation failed \u2014 see field errors in response"
+        }
+      ],
+      "tags": [
+        "refunds"
+      ]
+    },
+    {
+      "id": "ep_046",
+      "service": "PayBridge",
+      "method": "GET",
+      "path": "/api/v1/settlements",
+      "summary": "List merchant settlements for a date range",
+      "auth_required": true,
+      "request_body": {
+        "query": {
+          "from": "2026-07-01",
+          "to": "2026-07-05"
+        }
+      },
+      "response_body": {
+        "items": [
+          {
+            "settlement_id": "stl_71",
+            "date": "2026-07-02",
+            "net_inr": 84210.55
+          }
+        ],
+        "total": 4
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 403,
+          "message": "Forbidden \u2014 caller lacks permission for this resource"
+        },
+        {
+          "code": 422,
+          "message": "Validation failed \u2014 see field errors in response"
+        }
+      ],
+      "tags": [
+        "settlements",
+        "reports"
+      ]
+    },
+    {
+      "id": "ep_047",
+      "service": "PayBridge",
+      "method": "POST",
+      "path": "/api/v1/webhooks",
+      "summary": "Register a webhook endpoint for payment events",
+      "auth_required": true,
+      "request_body": {
+        "url": "https://shopstack.in/hooks/paybridge",
+        "events": [
+          "payment.captured",
+          "refund.settled"
+        ]
+      },
+      "response_body": {
+        "webhook_id": "wh_204",
+        "secret": "whsec_...",
+        "status": "active"
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 422,
+          "message": "Validation failed \u2014 see field errors in response"
+        },
+        {
+          "code": 409,
+          "message": "Conflict \u2014 webhook URL already exists"
+        }
+      ],
+      "tags": [
+        "webhooks",
+        "integration"
+      ]
+    },
+    {
+      "id": "ep_048",
+      "service": "PayBridge",
+      "method": "DELETE",
+      "path": "/api/v1/webhooks/{webhook_id}",
+      "summary": "Deactivate a webhook endpoint",
+      "auth_required": true,
+      "request_body": null,
+      "response_body": {
+        "webhook_id": "wh_204",
+        "status": "disabled"
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 404,
+          "message": "Webhook not found"
+        }
+      ],
+      "tags": [
+        "webhooks"
+      ]
+    },
+    {
+      "id": "ep_049",
+      "service": "PayBridge",
+      "method": "GET",
+      "path": "/api/v1/vpa/{vpa}/validate",
+      "summary": "Validate a UPI VPA before initiating collect",
+      "auth_required": true,
+      "request_body": null,
+      "response_body": {
+        "vpa": "priya@okbank",
+        "valid": true,
+        "account_holder": "P***a S****a"
+      },
+      "error_codes": [
+        {
+          "code": 401,
+          "message": "Unauthorized \u2014 missing or invalid bearer token"
+        },
+        {
+          "code": 422,
+          "message": "Validation failed \u2014 see field errors in response"
+        },
+        {
+          "code": 429,
+          "message": "Rate limit exceeded \u2014 retry after cooldown"
+        }
+      ],
+      "tags": [
+        "upi",
+        "validation"
+      ]
+    }
+  ]
+}
