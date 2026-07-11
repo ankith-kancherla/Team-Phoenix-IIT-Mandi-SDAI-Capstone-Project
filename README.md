@@ -1,4 +1,4 @@
-# 🔥 APIPhoenix — AI-Powered API Documentation & Testing Portal
+# APIPhoenix — AI-Powered API Documentation & Testing Portal
 
 **SDAI Himshikhar 2026 · Team Phoenix**
 
