@@ -108,8 +108,6 @@ Captured from the working prototype in `screenshots/`: `01_hero` (3D constellati
 
 Live test execution against real base URLs with CORS-aware proxying · OpenAPI/Swagger import & export · versioned doc diffs · CI hook that fails builds when contracts drift from docs.
 
-## 12 · Team
-
-**Team Phoenix**
+## 12 · Team Phoenix
 
 Sai Ankith Reddy Kancherla · Sri Varshith Vaitla · Nekkanti Bhavita · Pula Niharika  
