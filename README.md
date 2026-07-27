@@ -1,8 +1,8 @@
 # APIPhoenix — AI-Powered API Documentation & Testing Portal
 
-**SDAI Himshikhar 2026 · Team Phoenix**
+**IIT Mandi SDAI 2026 - Summer Research Program · Team Phoenix**
 
-A portal where users enter API endpoints or upload route definitions, and the system generates human-readable documentation, ready-to-run sample requests/responses, structured test suites, and plain-English error diagnoses — so the user always knows **what to do next**.
+A portal where users enter API endpoints or upload route definitions, and the system generates human-readable documentation, ready-to-run sample requests/responses, structured test suites, and plain-English error diagnoses, so the user always knows **what to do next**.
 
 ---
 
@@ -109,4 +109,4 @@ Live test execution against real base URLs with CORS-aware proxying · OpenAPI/S
 
 ## 12 · Team
 
-**Team Phoenix** — Sri Varshith Vaitla · Nekkanti Bhavita · Pula Nikarika · Sai Ankith Reddy Kancherla
+**Team Phoenix** — Sai Ankith Reddy Kancherla · Sri Varshith Vaitla · Nekkanti Bhavita · Pula Nikarika · 
