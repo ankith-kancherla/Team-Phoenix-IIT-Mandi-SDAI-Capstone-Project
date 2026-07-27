@@ -1,4 +1,4 @@
-# APIPhoenix
+# API Phoenix
 AI-Powered API Documentation & Testing Portal
 
 **IIT Mandi SDAI 2026 - Summer Research Program · Team Phoenix**
